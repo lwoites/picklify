@@ -1,0 +1,24 @@
+{
+  "name": "picklejs",
+  "version": "1.0.0",
+  "description": "Serialize/Deserialize objects maintaning references (circular refs too",
+  "repository": "github:lwoites/picklejs",
+  "main": "pickle.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "serialize",
+    "deserialize"
+  ],
+  "author": "Lautaro Woites",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.1.2",
+    "eslint": "^4.19.1",
+    "mocha": "^5.0.5"
+  },
+  "devDependencies": {
+    "eslint-config-google": "^0.9.1"
+  }
+}
