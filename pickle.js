@@ -16,10 +16,6 @@ function _isReference(object) {
     return (_getObjectType(object) == 'String' && /__\d{5}__/.test(object));
 }
 
-function _isReferenceable(object) {
-    return object && object.__id__ && _isReference(object.__id__);
-}
-
 
 class Serializer {
     constructor() {
@@ -140,10 +136,7 @@ class Loader {
         let rootObjectId = this.savedData.rootObjects[0].id;
         this.toBuild = [];
         this.buildObject(rootObjectId);
-        while (this.toBuild.length > 0) {
-            let objData = this.toBuild.shift();
-            this.buildObject(objData);
-        }
+
         this.built.rootObjects.push(this.built.objects[rootObjectId]);
         return this.built.objects[rootObjectId];
     }
@@ -160,50 +153,32 @@ class Loader {
         return this.built.types[classString];
     }
 
+    instanceObject(oid) {
+        let ObjConstructor = this.getClass(this.savedData.types[oid]);
+        let instance = new ObjConstructor();
+        this.built.objects[oid] = instance;
+
+        let values = this.savedData.objects[oid];
+        Object.keys(values).forEach( (key) => {
+            instance[key] = this.buildObject(values[key]);
+        });
+        return instance;
+    }
+
     buildObject(objData) {
         if (_isReference(objData)) {
-            // instance a partial object and return it
-            // put oject in pending list to finish build
+            // replace object id for the object itself
             let oid = objData;
 
             let instance = this.built.objects[oid];
             if (instance === undefined) {
-                let ObjConstructor = this.getClass(this.savedData.types[oid]);
-                instance = new ObjConstructor();
-                this._setId(instance, oid);
-                this.built.objects[oid] = instance;
-                this.toBuild.push(instance);
+                // if the object doesn't exist, create it
+                instance = this.instanceObject(oid);
             }
             return instance;
         } else if (_isSimpleObject(objData)) {
             return objData;
-        } else if (_isReferenceable(objData)) {
-            let values = this.savedData.objects[objData.__id__];
-            Object.keys(values).forEach( (key) => {
-                if (!['__id__'].includes(key)) {
-                    objData[key] = this.buildObject(values[key]);
-                }
-            });
-            delete objData['__id__'];
-
-            return objData;
         }
-    }
-
-    _setId(object, id) {
-        if (object.__id__ !== undefined) {
-            throw new Error('Object already have an id');
-        }
-        Object.defineProperty(
-            object,
-            '__id__',
-            {
-                enumerable: false, // to not iterate it again when constructing values
-                writable: false,
-                value: id,
-                configurable: true,
-            }
-        );
     }
 }
 
