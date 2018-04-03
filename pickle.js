@@ -12,6 +12,10 @@ function _isSimpleObject(object) {
     return ['Boolean', 'String', 'Number', 'Null'].includes(_getObjectType(object));
 }
 
+function _isDate(object) {
+    return _getObjectType(object) === 'Date';
+}
+
 function _isReference(object) {
     return (_getObjectType(object) == 'String' && /__\d{5}__/.test(object));
 }
@@ -41,7 +45,7 @@ class Serializer {
         while (this.toSerialize.length > 0) {
             let obj = this.toSerialize.shift();
             let oid = this._getOrCreateId(obj);
-            console.log(`Serializing ${oid} of type ${obj.constructor.name}`);
+            // console.log(`Serializing ${oid} of type ${obj.constructor.name}`);
             this.objects[oid] = this._serializeObject(obj, true);
             this.types[oid] = obj.constructor.name;
         }
@@ -65,7 +69,7 @@ class Serializer {
     _serializeCompoundObject(object, firstCall) {
         let oid = this._getOrCreateId(object);
         if (this.objectsFound[oid] === undefined) {
-            console.log(`${object.constructor.name} ${oid} found`);
+            // console.log(`${object.constructor.name} ${oid} found`);
             this.objectsFound[oid] = object;
             this.toSerialize.push(object);
         }
@@ -74,10 +78,14 @@ class Serializer {
         }
 
         let objectData = {};
-        let keysToSerialize = this._keysToSerialize(object);
-        keysToSerialize.forEach((key) => {
-            objectData[key] = this._serializeObject(object[key]);
-        });
+        if (_isDate(object)) {
+            objectData.milliseconds = object.valueOf();
+        } else {
+            let keysToSerialize = this._keysToSerialize(object);
+            keysToSerialize.forEach((key) => {
+                objectData[key] = this._serializeObject(object[key]);
+            });
+        }
         return objectData;
     }
 
@@ -138,6 +146,7 @@ class Loader {
         this.buildObject(rootObjectId);
 
         this.built.rootObjects.push(this.built.objects[rootObjectId]);
+        console.log(this.built);
         return this.built.objects[rootObjectId];
     }
 
@@ -155,13 +164,20 @@ class Loader {
 
     instanceObject(oid) {
         let ObjConstructor = this.getClass(this.savedData.types[oid]);
-        let instance = new ObjConstructor();
-        this.built.objects[oid] = instance;
-
         let values = this.savedData.objects[oid];
-        Object.keys(values).forEach( (key) => {
-            instance[key] = this.buildObject(values[key]);
-        });
+
+        let instance = null;
+        if (ObjConstructor === Date) {
+            instance = new Date(values.milliseconds);
+            this.built.objects[oid] = instance;
+        } else {
+            instance = new ObjConstructor();
+            this.built.objects[oid] = instance;
+            Object.keys(values).forEach( (key) => {
+                instance[key] = this.buildObject(values[key]);
+            });
+        }
+
         return instance;
     }
 
