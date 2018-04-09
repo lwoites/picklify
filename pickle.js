@@ -20,6 +20,7 @@ function _isReference(object) {
     return (_getObjectType(object) == 'String' && /__\d{5}__/.test(object));
 }
 
+// TODO: support regular expresions
 
 class Serializer {
     constructor() {
