@@ -147,7 +147,6 @@ class Loader {
         this.buildObject(rootObjectId);
 
         this.built.rootObjects.push(this.built.objects[rootObjectId]);
-        console.log(this.built);
         return this.built.objects[rootObjectId];
     }
 
