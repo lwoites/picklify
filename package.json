@@ -1,5 +1,5 @@
 {
-  "name": "picklejs",
+  "name": "picklify",
   "version": "0.0.9",
   "description": "Serialize/Deserialize objects maintaning references (circular refs too",
   "repository": "github:lwoites/picklejs",

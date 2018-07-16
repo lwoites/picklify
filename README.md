@@ -1,1 +1,1 @@
-# picklejs
+    npm install picklify
