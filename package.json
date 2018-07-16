@@ -1,6 +1,6 @@
 {
   "name": "picklejs",
-  "version": "1.0.0",
+  "version": "0.0.9",
   "description": "Serialize/Deserialize objects maintaning references (circular refs too",
   "repository": "github:lwoites/picklejs",
   "main": "pickle.js",
