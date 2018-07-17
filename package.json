@@ -1,7 +1,7 @@
 {
   "name": "picklify",
   "version": "0.0.9",
-  "description": "Serialize/Deserialize objects maintaning references (circular refs too",
+  "description": "Serialize/Deserialize objects maintaning references (circular refs too)",
   "repository": "github:lwoites/picklejs",
   "main": "picklify.js",
   "files": ["picklify.js"],
@@ -15,11 +15,11 @@
   "author": "Lautaro Woites",
   "license": "ISC",
   "dependencies": {
-    "chai": "^4.1.2",
-    "eslint": "^4.19.1",
-    "mocha": "^5.0.5"
   },
   "devDependencies": {
+    "eslint": "^4.19.1",
+    "chai": "^4.1.2",
+    "mocha": "^5.0.5",
     "eslint-config-google": "^0.9.1"
   }
 }
