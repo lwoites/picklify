@@ -194,43 +194,25 @@ class Loader {
             return instance;
         } else if (_isSimpleObject(objData)) {
             return objData;
+        } else {
+            throw new Error(`Unsupported object type: ${objData}`);
         }
     }
 }
 
-const fs = require('fs');
-class FileSerializer {
-    constructor() {
-        this.serializer = new Serializer();
-        this.loader = new Loader();
-    }
-
-    serialize(filename, rootObject) {
-        let data = this.serializer.serialize(rootObject);
-
-        let fd = fs.openSync(filename, 'w');
-        fs.writeSync(fd, JSON.stringify(data, null, 2));
-        fs.closeSync(fd);
-    }
-
-    load(filename) {
-        let fd = fs.openSync(filename, 'r');
-        let fileContent = fs.readFileSync(fd, {encoding: 'utf-8'});
-        fs.closeSync(fd);
-
-        let data = JSON.parse(fileContent);
-        this.loader.initialize(data);
-        return this.loader.buildObjects();
-    }
-
-    registerClasses(...classes) {
-        this.loader.registerClasses(...classes);
-    }
+function picklify(rootObject) {
+    return new Serializer().serialize(rootObject);
 }
 
+function unpicklify(serializedData, externalClasses=[]) {
+    const loader = new Loader();
+    loader.registerClasses(...externalClasses);
+    loader.initialize(serializedData);
+
+    return loader.buildObjects();
+}
 
 module.exports = {
-    Serializer,
-    Loader,
-    FileSerializer,
+    picklify,
+    unpicklify,
 };
