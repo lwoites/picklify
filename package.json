@@ -2,7 +2,7 @@
   "name": "picklify",
   "version": "1.0.0",
   "description": "Serialize/Deserialize objects maintaning references (circular refs too)",
-  "repository": "github:lwoites/picklejs",
+  "repository": "github:lwoites/picklify",
   "main": "picklify.js",
   "files": [
     "picklify.js"
