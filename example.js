@@ -1,5 +1,5 @@
 
-const pickle = require('./pickle');
+const picklify = require('./picklify');
 const assert = require('assert');
 
 let sharedObj = {'nested': {'nested': {'morenested': 'value'}}};
@@ -46,13 +46,8 @@ let originalRoot = new A();
 originalRoot.c = new C();
 originalRoot.c.b = new B(originalRoot);
 
-let fs = new pickle.FileSerializer();
-fs.registerClasses(A, B, C);
-fs.serialize('serialized.json', originalRoot);
-
-let recoveredRoot = fs.load('serialized.json');
-fs.serialize('serialized_2.json', recoveredRoot);
-
+let serializedRoot = picklify.picklify(originalRoot);
+let recoveredRoot = picklify.unpicklify(serializedRoot, [A, B, C]);
 
 assert.equal(recoveredRoot.b.a, recoveredRoot);
 assert.equal(recoveredRoot.config.sharedObj, recoveredRoot.b.sharedObj);
