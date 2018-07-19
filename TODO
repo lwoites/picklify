@@ -1,8 +1,10 @@
 
 * Serialize regular expressions
+* Serialize basic types as root
 * Serialize methods/member functions? maybe only for plain JS objects and not for classes
 
+* Support using constructor functions to instance objects instead of assigning attributes
 * support propsToSerialize to be an array (and exclude it from serialization?)
 * Raise correct execption if propsToSerialize is not a function or Array
 * Raise correct execption if propsToSerialize element does not exist on serialized object.
-* Support using constructor functions to instance objects instead of assigning attributes
+* user browserify for browser support
