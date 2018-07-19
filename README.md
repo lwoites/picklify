@@ -1,3 +1,6 @@
+
+[![Build Status](https://travis-ci.org/lwoites/picklify.svg?branch=master)](https://travis-ci.org/lwoites/picklify)
+
 Install
 =======
     npm install picklify
