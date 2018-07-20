@@ -2,6 +2,7 @@
 
 const picklify = require('./picklify');
 const assert = require('chai').assert;
+const expect = require('chai').expect;
 
 describe('Basic objects serialization', function() {
     it('should serialize Dates', function() {
@@ -330,4 +331,18 @@ describe('Serialize only defined keys', function() {
 
         assert.deepEqual(reconstructedObject, input);
     });
+});
+
+describe('Invalid object unpicklified', function() {
+    it('should throw exception', function() {
+        let input = {
+            propsToSerialize: () => [
+                'prop1',
+            ],
+            prop1: function Pepe(){}
+        };
+        const serializedData = picklify.picklify(input);
+        serializedData.objects.__00001__.prop1 = function() {}
+	expect(function() {picklify.unpicklify(serializedData, [input])}).to.throw();
+    })
 });
