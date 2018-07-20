@@ -1,6 +1,6 @@
 
 [![Build Status](https://travis-ci.org/lwoites/picklify.svg?branch=master)](https://travis-ci.org/lwoites/picklify)
-[![codecov](https://codecov.io/gh/lwoites/picklify/branch/master/graph/badge.svg)](https://codecov.io/gh/lwoites/picklify)
+[![codecov](https://codecov.io/gh/lwoites/picklify/branch/master/graph/badge.svg)](https://codecov.io/gh/lwoites/picklify) [![Greenkeeper badge](https://badges.greenkeeper.io/lwoites/picklify.svg)](https://greenkeeper.io/)
 
 Install
 =======
