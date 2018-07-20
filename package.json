@@ -10,7 +10,7 @@
   "scripts": {
     "test": "mocha",
     "coverage": "nyc --reporter=html --reporter=text  mocha",
-    "CICoverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
+    "CICoverage": "nyc --reporter=text-lcov mocha > coverage.lcov && codecov"
   },
   "keywords": [
     "serialize",
