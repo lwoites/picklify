@@ -61,6 +61,19 @@ Custom classes
 --------------
 
 ```javascript
+class Musician {
+    constructor(name, age) {
+        this.name = name
+        this.age = age
+    }
+}
+
+class Band {
+    constructor(name, members) {
+        this.name = name
+        this.members = members
+    }
+}
 
 let slash = new Musician('Slash', 44);
 let gnr = new Band('GnR', [slash]);
@@ -75,6 +88,37 @@ const reconstructedBands = picklify.unpicklify(
 
 // evaulates to true
 reconstructedBands[0].members[0] == reconstructedBands[1].members[0]
+```
+
+Only Serialize specific attributes on objects
+--------------
+
+```javascript
+
+class Musician {
+
+    constructor(name, age, instrument) {
+        this.name = name
+        this.age = age
+        this.instrument = instrument
+    }
+
+    propsToSerialize() {
+        return ["name",]
+    }
+}
+
+
+const slash = new Musician('Slash', 44, "Guitar");
+const serializedData = picklify.picklify(slash);
+
+const reconstructedSlash = picklify.unpicklify(
+    serializedData, [Musician]
+);
+
+// evaulates to true
+reconstructedSlash.age === undefined
+reconstructedSlash.instrument === undefined
 ```
 
 Reference
