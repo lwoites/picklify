@@ -3,7 +3,7 @@
 [![codecov](https://codecov.io/gh/lwoites/picklify/branch/master/graph/badge.svg)](https://codecov.io/gh/lwoites/picklify) [![Greenkeeper badge](https://badges.greenkeeper.io/lwoites/picklify.svg)](https://greenkeeper.io/)
 
 
-Serialize/Deserialize objects maintaning references (circular refs too)
+Serialize/Deserialize objects maintaining references (circular refs too)
 
 Install
 =======
@@ -12,6 +12,10 @@ Install
 Basic Usage
 =======
 
+You can serialize an object using the `picklify.picklify` function. 
+The only requirement for your custom objects is to have an empty constructor (or make your constructor does not crash when calling it with no arguments).
+
+
 ```javascript
 const { picklify, unpicklify } = require('picklify');
 let serializedData = picklify(someObject);
@@ -19,9 +23,11 @@ let serializedData = picklify(someObject);
 
 let originalObject = unpicklify(serializedData);
 
-// unpicklify need access to constructors for building the original objects.
-// So they must be on the global scope or being passed as a second argument to // unpicklify
+/* unpicklify need access to constructors for building the original objects.
+** So they must be on the global scope or being passed as a second argument to unpicklify
+
 let originalObject = unpicklify(serializedData, [class1, class2]);
+*/
 ```
 
 Examples
