@@ -2,6 +2,9 @@
 [![Build Status](https://travis-ci.org/lwoites/picklify.svg?branch=master)](https://travis-ci.org/lwoites/picklify)
 [![codecov](https://codecov.io/gh/lwoites/picklify/branch/master/graph/badge.svg)](https://codecov.io/gh/lwoites/picklify) [![Greenkeeper badge](https://badges.greenkeeper.io/lwoites/picklify.svg)](https://greenkeeper.io/)
 
+
+Serialize/Deserialize objects maintaning references (circular refs too)
+
 Install
 =======
     npm install picklify
